@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NN MOTOS - Cartão Digital</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Russo One (Hero) & Montserrat (Moderno) -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Russo+One&display=swap" rel="stylesheet">
+
+    <style>
+        /* 🎨 PALETA DE CORES DINÂMICA */
+        :root {
+            --brand-primary: #D32F2F; /* Vermelho Racing */
+            --brand-secondary: #B71C1C; /* Vermelho Escuro */
+            --brand-accent: #FFFFFF; /* Branco */
+            --bg-dark: #0f1012; /* Preto Fundo */
+            --bg-card: #1a1c20; /* Cinza Card */
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-dark);
+            /* Padrão de fundo sutil estilo fibra de carbono */
+            background-image: 
+                radial-gradient(circle at 50% 50%, #2a2d35 0%, #0f1012 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 16px;
+        }
+
+        .hero-font {
+            font-family: 'Russo One', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        /* Container do Cartão */
+        .card-container {
+            width: 100%;
+            max-width: 400px;
+            background: var(--bg-card);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            position: relative;
+            border: 1px solid #333;
+        }
+
+        /* Efeito de brilho no topo */
+        .card-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--brand-primary), transparent);
+            z-index: 10;
+        }
+
+        /* Elementos Decorativos de Fundo (Velocidade) */
+        .speed-line {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.03);
+            transform: skewX(-20deg);
+        }
+        .line-1 { width: 40px; height: 100%; top: 0; right: 20%; }
+        .line-2 { width: 15px; height: 100%; top: 0; right: 10%; }
+        .line-3 { width: 100%; height: 200px; bottom: -50px; left: 0; background: linear-gradient(to top, var(--brand-secondary), transparent); opacity: 0.1; }
+
+        /* Estilo do Texto do Logo */
+        .logo-text {
+            font-size: 2rem;
+            line-height: 1;
+            text-transform: uppercase;
+            background: linear-gradient(to right, #fff, #ccc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.5));
+        }
+        
+        .logo-sub {
+            color: var(--brand-primary);
+            font-size: 1.5rem;
+        }
+
+        /* Botões Interativos */
+        .btn-interactive {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .btn-interactive:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            box-shadow: 0 0 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .btn-instagram {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); 
+        }
+
+        .btn-address {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(5px);
+        }
+        
+        /* Animação de Pulso */
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+        
+        .pulse-effect {
+            animation: pulse-glow 2s infinite;
+        }
+
+        /* Ícone da Moto estilizado (fundo) */
+        .moto-icon-bg {
+            position: absolute;
+            top: 20px;
+            right: -20px;
+            font-size: 8rem;
+            color: rgba(255,255,255,0.02);
+            transform: rotate(-15deg);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Estilo da Imagem do Logo */
+        .logo-container {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 16px;
+            border-radius: 50%;
+            padding: 4px;
+            background: linear-gradient(135deg, var(--brand-primary), #333);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        
+        .logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid var(--bg-card);
+            background-color: #fff; /* Fundo branco caso o logo tenha transparência */
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="card-container relative flex flex-col items-center pb-8">
+        
+        <!-- Elementos Gráficos de Fundo -->
+        <div class="speed-line line-1"></div>
+        <div class="speed-line line-2"></div>
+        <div class="speed-line line-3"></div>
+        <i class="fa-solid fa-motorcycle moto-icon-bg"></i>
+
+        <!-- Cabeçalho / Logo -->
+        <div class="w-full pt-10 pb-6 px-6 text-center z-10 relative">
+            
+            <!-- Inserção da Foto/Logo -->
+            <div class="logo-container">
+                <!-- 
+                   IMPORTANTE: Substitua 'NN_MOTOS_page-0001.jpg' pelo nome correto do seu arquivo 
+                   se ele não carregar automaticamente.
+                -->
+                <img 
+                    src="NN_MOTOS_page-0001.jpg" 
+                    onerror="this.src='https://placehold.co/400x400/1a1c20/D32F2F?text=LOGO+AQUI'" 
+                    alt="Logo NN MOTOS" 
+                    class="logo-img"
+                >
+            </div>
+
+            <div class="inline-block relative">
+                <h1 class="hero-font logo-text">
+                    NN <span class="logo-sub">MOTOS</span>
+                </h1>
+            </div>
+            
+            <!-- Slogan Atualizado -->
+            <div class="flex items-center justify-center gap-2 mt-3 text-gray-300 text-xs font-bold uppercase tracking-widest">
+                <span>Compra</span>
+                <span class="text-red-500">•</span>
+                <span>Venda</span>
+                <span class="text-red-500">•</span>
+                <span>Troca</span>
+            </div>
+        </div>
+
+        <!-- Informações de Status -->
+        <div class="w-full px-8 mb-6 z-10">
+            <div class="flex justify-between items-center bg-white/5 rounded-lg p-3 border border-white/5 backdrop-blur-sm">
+                <div class="flex items-center gap-2">
+                    <span class="relative flex h-3 w-3">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                    </span>
+                    <span class="text-xs text-gray-300 font-medium">Estoque Atualizado</span>
+                </div>
+                <div class="flex text-yellow-500 text-xs gap-1">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botões de Ação Principal (CTA) -->
+        <div class="w-full px-6 flex flex-col gap-4 z-10">
+            
+            <!-- WhatsApp (Principal) -->
+            <a href="https://wa.me/5581979048944" target="_blank" class="btn-interactive btn-whatsapp w-full py-4 rounded-xl flex items-center justify-center gap-3 text-white font-bold text-lg pulse-effect group">
+                <i class="fa-brands fa-whatsapp text-2xl group-hover:rotate-12 transition-transform"></i>
+                <span>Ver Motos / Negociar</span>
+            </a>
+
+            <!-- Instagram -->
+            <a href="https://instagram.com/nn_motos" target="_blank" class="btn-interactive btn-instagram w-full py-4 rounded-xl flex items-center justify-center gap-3 text-white font-bold text-lg group">
+                <i class="fa-brands fa-instagram text-2xl group-hover:rotate-12 transition-transform"></i>
+                <span>Siga @nn_motos</span>
+            </a>
+
+            <!-- Botão de Endereço (Atualizado para "Ir para a Loja") -->
+            <a href="https://www.google.com/maps/search/?api=1&query=Rua+11+de+Setembro+1456+Centro+Agrestina+PE" target="_blank" class="btn-interactive btn-address w-full py-4 rounded-xl flex items-center justify-center gap-3 text-gray-200 font-bold text-lg group">
+                <i class="fa-solid fa-location-dot text-red-500 text-2xl group-hover:scale-110 transition-transform"></i>
+                <span>Ir para a Loja</span>
+            </a>
+            
+            <!-- Texto do endereço removido conforme solicitado -->
+        </div>
+
+        <!-- Footer (Serviços Atualizados) -->
+        <div class="mt-8 text-center z-10">
+            <div class="flex justify-center gap-8 mb-4">
+                <div class="text-center group cursor-default">
+                    <div class="w-10 h-10 mx-auto bg-white/5 rounded-full flex items-center justify-center mb-2 group-hover:bg-red-600/20 transition-colors">
+                        <i class="fa-solid fa-hand-holding-dollar text-gray-400 group-hover:text-red-500 transition-colors"></i>
+                    </div>
+                    <p class="text-[10px] text-gray-500 uppercase font-bold">Compra</p>
+                </div>
+                <div class="text-center group cursor-default">
+                    <div class="w-10 h-10 mx-auto bg-white/5 rounded-full flex items-center justify-center mb-2 group-hover:bg-red-600/20 transition-colors">
+                        <i class="fa-solid fa-tag text-gray-400 group-hover:text-red-500 transition-colors"></i>
+                    </div>
+                    <p class="text-[10px] text-gray-500 uppercase font-bold">Venda</p>
+                </div>
+                <div class="text-center group cursor-default">
+                    <div class="w-10 h-10 mx-auto bg-white/5 rounded-full flex items-center justify-center mb-2 group-hover:bg-red-600/20 transition-colors">
+                        <i class="fa-solid fa-right-left text-gray-400 group-hover:text-red-500 transition-colors"></i>
+                    </div>
+                    <p class="text-[10px] text-gray-500 uppercase font-bold">Troca</p>
+                </div>
+            </div>
+            <p class="text-[10px] text-gray-600">
+                &copy; 2026 NN MOTOS. Todos os direitos reservados.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- Script de copiar removido pois agora é link direto -->
+    <script>
+    </script>
+</body>
+</html>
